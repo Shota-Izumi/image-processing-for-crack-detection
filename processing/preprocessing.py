@@ -48,6 +48,15 @@ class PreProcessing(object):
             image_path_list = [path]
         return image_path_list
 
+    def check_imagesize(self):
+        original_path_list = self.make_pathlist(self.original_image_dir)
+        label_path_list = self.make_pathlist(self.label_image_dir)
+        for n, ori in enumerate(original_path_list):
+            o_w, o_h = Image.open(ori).size
+            l_w, l_h = Image.open(label_path_list[n]).size
+            assert o_w == l_w
+            assert o_h == l_h
+
     def shuffle_index(self, noimages, train_ratio, val_ratio, test_ratio):
         assert noimages > 1
         assert train_ratio + val_ratio + test_ratio == 1.0
